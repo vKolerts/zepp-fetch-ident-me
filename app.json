@@ -2,7 +2,7 @@
   "configVersion": "v2",
   "app": {
     "appId": 20001,
-    "appName": "Fetch API",
+    "appName": "Temperatures",
     "appType": "app",
     "version": {
       "code": 1,
@@ -91,7 +91,7 @@
   },
   "i18n": {
     "en-US": {
-      "appName": "Fetch API"
+      "appName": "Temperatures"
     }
   },
   "defaultLanguage": "en-US"

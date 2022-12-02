@@ -1,52 +1,37 @@
 import { MessageBuilder } from '../shared/message'
 
-const messageBuilder = new MessageBuilder()
+const messageBuilder = new MessageBuilder();
 
-// Simulating an asynchronous network request using Promise
-const mockAPI = async () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({
-        body: {
-          data: {
-            text: 'HELLO ZEPPOS'
-          }
-        }
-      })
-    }, 1000)
-  })
-}
-
-const fetchData = async (ctx) => {
+const fetchTemps = async (ctx) => {
   try {
     // Requesting network data using the fetch API
-	const res = await fetch({
-		url: 'https://ident.me',
-		method: 'GET'
-	})
+    const res = await fetch({
+      url: 'http://192.168.1.218',
+      method: 'GET'
+    });
 
     ctx.response({
-		data: {
-			result: {
-				text: res.body
-			}
-		},
-    })
-  } catch (error) {
+      data: res.body,
+    });
+  }
+  catch (error) {
+    console.log('fetchTemps.failed', error);
     ctx.response({
-      data: { result: 'ERROR' },
-    })
+      data: {
+        error,
+      },
+    });
   }
 }
 
 AppSideService({
   onInit() {
-    messageBuilder.listen(() => {})
+    messageBuilder.listen(() => { })
 
     messageBuilder.on('request', (ctx) => {
       const jsonRpc = messageBuilder.buf2Json(ctx.request.payload)
-      if (jsonRpc.method === 'GET_DATA') {
-        return fetchData(ctx)
+      if (jsonRpc.method === 'GET_TEMPS') {
+        return fetchTemps(ctx)
       }
     })
   },
@@ -56,4 +41,4 @@ AppSideService({
 
   onDestroy() {
   }
-})
+});
